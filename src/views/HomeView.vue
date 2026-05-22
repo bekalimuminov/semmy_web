@@ -129,7 +129,7 @@ import { useLang } from '@/composables/useLang.js'
 const { t } = useLang()
 
 const stats = [
-  { num: '500+', labelUz: 'Bitiruvchilar',         labelEn: 'Graduates' },
+  { num: '5+', labelUz: 'Bitiruvchilar',         labelEn: 'Graduates' },
   { num: '6–8',  labelUz: 'Kishi / guruh',          labelEn: 'Students / group' },
   { num: '95%',  labelUz: 'Maqsadga erishganlar',   labelEn: 'Goals achieved' },
   { num: '3+',   labelUz: 'Yillik tajriba',          labelEn: 'Years of experience' },
