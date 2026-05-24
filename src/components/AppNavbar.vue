@@ -93,11 +93,7 @@ nav.scrolled {
 }
 
 /* Logo */
-.logo {
-  font-family: var(--ff-display);
-  font-size: 1.55rem; font-weight: 900; color: #fff;
-  letter-spacing: -.01em;
-}
+.logo { display: flex; align-items: center; font-family: var(--ff-display); font-size: 1.55rem; font-weight: 900; color: #fff; letter-spacing: -.01em; }
 .logo span { color: var(--gold); }
 
 /* Nav links */
