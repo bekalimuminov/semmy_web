@@ -11,7 +11,7 @@
           {{ t(
             'Ro\'yxatdan o\'tgach, biz siz bilan 24 soat ichida bog\'lanamiz. Bepul daraja testi va konsultatsiya o\'tkazamiz.',
             'After registering, we will contact you within 24 hours for a free level test and consultation.'
-        ) }}
+          ) }}
         </p>
 
         <div class="steps">
@@ -34,8 +34,8 @@
           <div class="field">
             <label>{{ t('Ism va familya', 'Full name') }} *</label>
             <input v-model="form.name" type="text"
-                   :placeholder="t('Abdullayev Jasur', 'John Smith')"
-                   :class="{ err: errors.name }" />
+              :placeholder="t('Abdullayev Jasur', 'John Smith')"
+              :class="{ err: errors.name }" />
             <span class="err-msg" v-if="errors.name">{{ errors.name }}</span>
           </div>
 
@@ -43,8 +43,8 @@
           <div class="field">
             <label>{{ t('Telefon raqam', 'Phone number') }} *</label>
             <input v-model="form.phone" type="tel"
-                   placeholder="+998 90 000 00 00"
-                   :class="{ err: errors.phone }" />
+              placeholder="+998 90 000 00 00"
+              :class="{ err: errors.phone }" />
             <span class="err-msg" v-if="errors.phone">{{ errors.phone }}</span>
           </div>
 
@@ -52,8 +52,8 @@
           <div class="field">
             <label>Email *</label>
             <input v-model="form.email" type="email"
-                   placeholder="example@mail.com"
-                   :class="{ err: errors.email }" />
+              placeholder="example@mail.com"
+              :class="{ err: errors.email }" />
             <span class="err-msg" v-if="errors.email">{{ errors.email }}</span>
           </div>
 
@@ -85,7 +85,7 @@
           <div class="field">
             <label>{{ t('Qo\'shimcha izoh', 'Additional note') }}</label>
             <textarea v-model="form.note" rows="3"
-                      :placeholder="t('Savollaringiz yoki istagingiz...', 'Any questions or preferences...')">
+              :placeholder="t('Savollaringiz yoki istagingiz...', 'Any questions or preferences...')">
             </textarea>
           </div>
 
@@ -124,9 +124,6 @@ const formats = [
   { val: 'both',    uz: 'Har ikkalasi', en: 'Both' },
 ]
 
-const BOT_TOKEN = '8854523325:AAHaFQOYiVc2R8HZrjHlUs7Tz1i001L8kp4'
-const CHAT_ID   = '6572829497'
-
 const form    = reactive({ name:'', phone:'', email:'', course:'', format:'offline', note:'' })
 const errors  = reactive({ name:'', phone:'', email:'', course:'' })
 const loading = ref(false)
@@ -140,37 +137,13 @@ function validate() {
   return !errors.name && !errors.phone && !errors.email && !errors.course
 }
 
-const courseNames = { general: 'General English', ielts: 'IELTS', sat: 'SAT' }
-const formatNames = { offline: 'Oflayn', online: 'Onlayn', both: 'Har ikkalasi' }
-
 async function submit() {
   if (!validate()) return
   loading.value = true
-
-  const text = `
-🎓 *Yangi ro'yxatdan o'tish!*
-
-👤 *Ism:* ${form.name}
-📞 *Telefon:* ${form.phone}
-📧 *Email:* ${form.email}
-📚 *Kurs:* ${courseNames[form.course] || form.course}
-🖥 *Format:* ${formatNames[form.format] || form.format}
-💬 *Izoh:* ${form.note || '—'}
-  `.trim()
-
-  try {
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'Markdown' })
-    })
-    submitted.value = true
-    Object.keys(form).forEach(k => form[k] = k === 'format' ? 'offline' : '')
-  } catch (e) {
-    console.error('Telegram xato:', e)
-  }
-
+  await new Promise(r => setTimeout(r, 1200))
   loading.value = false
+  submitted.value = true
+  Object.keys(form).forEach(k => form[k] = k === 'format' ? 'offline' : '')
   setTimeout(() => submitted.value = false, 6000)
 }
 </script>

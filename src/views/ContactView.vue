@@ -11,7 +11,7 @@
           {{ t(
             'Savollaringiz bormi yoki kurs haqida ko\'proq bilmoqchimisiz? Qulay yo\'l bilan murojaat qiling.',
             'Have questions or want to know more about a course? Reach us through your preferred channel.'
-        ) }}
+          ) }}
         </p>
 
         <div class="contact-channels">
@@ -57,39 +57,40 @@
           <div class="field">
             <label>{{ t('Ismingiz', 'Your name') }} *</label>
             <input v-model="form.name" type="text"
-                   :placeholder="t('Jasur', 'John')"
-                   :class="{ err: errors.name }" />
+              :placeholder="t('Jasur', 'John')"
+              :class="{ err: errors.name }" />
             <span class="err-msg" v-if="errors.name">{{ errors.name }}</span>
           </div>
 
           <div class="field">
             <label>{{ t('Telefon yoki Telegram', 'Phone or Telegram') }} *</label>
             <input v-model="form.contact" type="text"
-                   placeholder="+998 90 000 00 00 / @username"
-                   :class="{ err: errors.contact }" />
+              placeholder="+998 90 000 00 00 / @username"
+              :class="{ err: errors.contact }" />
             <span class="err-msg" v-if="errors.contact">{{ errors.contact }}</span>
           </div>
 
           <div class="field">
             <label>{{ t('Xabar', 'Message') }} *</label>
             <textarea v-model="form.message" rows="5"
-                      :placeholder="t('Savolingizni yozing...', 'Write your question...')"
-                      :class="{ err: errors.message }">
+              :placeholder="t('Savolingizni yozing...', 'Write your question...')"
+              :class="{ err: errors.message }">
             </textarea>
             <span class="err-msg" v-if="errors.message">{{ errors.message }}</span>
           </div>
 
-          <button type="submit" class="btn btn-gold submit-btn" :disabled="loading">
-            <span v-if="!loading">{{ t('Yuborish', 'Send') }} →</span>
-            <span v-else>{{ t('Yuborilmoqda...', 'Sending...') }}</span>
+          <button type="submit" class="btn btn-gold submit-btn cursor-not-allowed" :disabled="loading">
+<!--            <span v-if="!loading">{{ t('Yuborish', 'Send') }} →</span>-->
+<!--            <span v-else>{{ t('Yuborilmoqda...', 'Sending...') }}</span>-->
+            <span>Yuborish →</span>
           </button>
         </form>
 
-        <transition name="fade">
-          <div class="success-box" v-if="submitted">
-            ✅ {{ t('Xabaringiz qabul qilindi! Tez orada javob beramiz.', 'Message received! We will reply shortly.') }}
-          </div>
-        </transition>
+<!--        <transition name="fade">-->
+<!--          <div class="success-box" v-if="submitted">-->
+<!--            ✅ {{ t('Xabaringiz qabul qilindi! Tez orada javob beramiz.', 'Message received! We will reply shortly.') }}-->
+<!--          </div>-->
+<!--        </transition>-->
       </div>
 
     </div>
@@ -106,9 +107,6 @@ const hours = [
   { dayUz: 'Yakshanba',        dayEn: 'Sunday',            time: t('Dam olish kuni', 'Closed') },
 ]
 
-const BOT_TOKEN = '8854523325:AAHaFQOYiVc2R8HZrjHlUs7Tz1i001L8kp4'
-const CHAT_ID   = '6572829497'
-
 const form    = reactive({ name:'', contact:'', message:'' })
 const errors  = reactive({ name:'', contact:'', message:'' })
 const loading = ref(false)
@@ -124,28 +122,10 @@ function validate() {
 async function submit() {
   if (!validate()) return
   loading.value = true
-
-  const text = `
-📩 *Yangi xabar (Aloqa sahifasi)*
-
-👤 *Ism:* ${form.name}
-📞 *Telefon/Telegram:* ${form.contact}
-💬 *Xabar:* ${form.message}
-  `.trim()
-
-  try {
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'Markdown' })
-    })
-    submitted.value = true
-    form.name = ''; form.contact = ''; form.message = ''
-  } catch (e) {
-    console.error('Telegram xato:', e)
-  }
-
+  await new Promise(r => setTimeout(r, 1000))
   loading.value = false
+  submitted.value = true
+  form.name = ''; form.contact = ''; form.message = ''
   setTimeout(() => submitted.value = false, 6000)
 }
 </script>
@@ -207,7 +187,7 @@ textarea { resize: vertical; }
 
 .err-msg { color: #e24b4a; font-size: .76rem; }
 .submit-btn { width: 100%; justify-content: center; margin-top: .4rem; }
-.submit-btn:disabled { opacity: .6; pointer-events: none; }
+.submit-btn:disabled { opacity: .6; }
 
 .success-box {
   margin-top: 1rem; padding: .9rem 1.1rem;
