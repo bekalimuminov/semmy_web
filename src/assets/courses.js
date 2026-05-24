@@ -11,8 +11,8 @@ export const courses = [
     levels: ['A1', 'A2', 'B1', 'B2', 'C1'],
     durationUz: '3 oy / daraja',
     durationEn: '3 months / level',
-    priceUz: '600 000 so\'m / oy',
-    priceEn: '600,000 UZS / month',
+    priceUz: '400 000 so\'m / oy',
+    priceEn: '400,000 UZS / month',
     color: '#2dd4bf'
   },
   {
@@ -27,8 +27,8 @@ export const courses = [
     levels: ['Academic', 'General Training'],
     durationUz: '4 oy',
     durationEn: '4 months',
-    priceUz: '800 000 so\'m / oy',
-    priceEn: '800,000 UZS / month',
+    priceUz: '450 000 so\'m / oy',
+    priceEn: '450,000 UZS / month',
     color: '#c8a96e'
   },
   {
@@ -43,8 +43,8 @@ export const courses = [
     levels: ['Math', 'EBRW'],
     durationUz: '5 oy',
     durationEn: '5 months',
-    priceUz: '900 000 so\'m / oy',
-    priceEn: '900,000 UZS / month',
+    priceUz: '450 000 so\'m / oy',
+    priceEn: '450,000 UZS / month',
     color: '#a78bfa'
   }
 ]
