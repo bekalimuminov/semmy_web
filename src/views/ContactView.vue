@@ -11,27 +11,27 @@
           {{ t(
             'Savollaringiz bormi yoki kurs haqida ko\'proq bilmoqchimisiz? Qulay yo\'l bilan murojaat qiling.',
             'Have questions or want to know more about a course? Reach us through your preferred channel.'
-          ) }}
+        ) }}
         </p>
 
         <div class="contact-channels">
-          <a href="tel:+998908572700" class="channel-card">
+          <a href="tel:+998712345678" class="channel-card">
             <div class="ch-icon" style="background: rgba(45,212,191,.1); border-color: rgba(45,212,191,.25);">📞</div>
             <div>
               <span class="ch-label">{{ t('Telefon', 'Phone') }}</span>
-              <span class="ch-val">+998 90 857 27 00</span>
+              <span class="ch-val">+998 71 234 56 78</span>
             </div>
           </a>
 
-          <a href="mailto:seemyacademy@gmail.com" class="channel-card">
+          <a href="mailto:info@seemy.uz" class="channel-card">
             <div class="ch-icon" style="background: rgba(200,169,110,.1); border-color: rgba(200,169,110,.25);">✉️</div>
             <div>
               <span class="ch-label">Email</span>
-              <span class="ch-val">seemyacademy@gmail.com</span>
+              <span class="ch-val">info@seemy.uz</span>
             </div>
           </a>
 
-          <a href="https://t.me/Seemy_admin" target="_blank" class="channel-card">
+          <a href="https://t.me/seemyacademy" target="_blank" class="channel-card">
             <div class="ch-icon" style="background: rgba(41,182,246,.1); border-color: rgba(41,182,246,.25);">✈️</div>
             <div>
               <span class="ch-label">Telegram</span>
@@ -57,40 +57,39 @@
           <div class="field">
             <label>{{ t('Ismingiz', 'Your name') }} *</label>
             <input v-model="form.name" type="text"
-              :placeholder="t('Jasur', 'John')"
-              :class="{ err: errors.name }" />
+                   :placeholder="t('Jasur', 'John')"
+                   :class="{ err: errors.name }" />
             <span class="err-msg" v-if="errors.name">{{ errors.name }}</span>
           </div>
 
           <div class="field">
             <label>{{ t('Telefon yoki Telegram', 'Phone or Telegram') }} *</label>
             <input v-model="form.contact" type="text"
-              placeholder="+998 90 000 00 00 / @username"
-              :class="{ err: errors.contact }" />
+                   placeholder="+998 90 000 00 00 / @username"
+                   :class="{ err: errors.contact }" />
             <span class="err-msg" v-if="errors.contact">{{ errors.contact }}</span>
           </div>
 
           <div class="field">
             <label>{{ t('Xabar', 'Message') }} *</label>
             <textarea v-model="form.message" rows="5"
-              :placeholder="t('Savolingizni yozing...', 'Write your question...')"
-              :class="{ err: errors.message }">
+                      :placeholder="t('Savolingizni yozing...', 'Write your question...')"
+                      :class="{ err: errors.message }">
             </textarea>
             <span class="err-msg" v-if="errors.message">{{ errors.message }}</span>
           </div>
 
-          <button type="submit" class="btn btn-gold submit-btn cursor-not-allowed" :disabled="loading">
-<!--            <span v-if="!loading">{{ t('Yuborish', 'Send') }} →</span>-->
-<!--            <span v-else>{{ t('Yuborilmoqda...', 'Sending...') }}</span>-->
-            <span>Yuborish →</span>
+          <button type="submit" class="btn btn-gold submit-btn" :disabled="loading">
+            <span v-if="!loading">{{ t('Yuborish', 'Send') }} →</span>
+            <span v-else>{{ t('Yuborilmoqda...', 'Sending...') }}</span>
           </button>
         </form>
 
-<!--        <transition name="fade">-->
-<!--          <div class="success-box" v-if="submitted">-->
-<!--            ✅ {{ t('Xabaringiz qabul qilindi! Tez orada javob beramiz.', 'Message received! We will reply shortly.') }}-->
-<!--          </div>-->
-<!--        </transition>-->
+        <transition name="fade">
+          <div class="success-box" v-if="submitted">
+            ✅ {{ t('Xabaringiz qabul qilindi! Tez orada javob beramiz.', 'Message received! We will reply shortly.') }}
+          </div>
+        </transition>
       </div>
 
     </div>
@@ -103,9 +102,13 @@ import { useLang } from '@/composables/useLang.js'
 const { t } = useLang()
 
 const hours = [
-  { dayUz: 'Dushanba – Shanba',  dayEn: 'Monday – Friday',  time: '09:00 – 20:00' },
+  { dayUz: 'Dushanba – Juma',  dayEn: 'Monday – Friday',  time: '09:00 – 20:00' },
+  { dayUz: 'Shanba',           dayEn: 'Saturday',          time: '10:00 – 18:00' },
   { dayUz: 'Yakshanba',        dayEn: 'Sunday',            time: t('Dam olish kuni', 'Closed') },
 ]
+
+const BOT_TOKEN = '8854523325:AAHaFQOYiVc2R8HZrjHlUs7Tz1i001L8kp4'
+const CHAT_ID   = '6572829497'
 
 const form    = reactive({ name:'', contact:'', message:'' })
 const errors  = reactive({ name:'', contact:'', message:'' })
@@ -122,10 +125,28 @@ function validate() {
 async function submit() {
   if (!validate()) return
   loading.value = true
-  await new Promise(r => setTimeout(r, 1000))
+
+  const text = `
+📩 *Yangi xabar (Aloqa sahifasi)*
+
+👤 *Ism:* ${form.name}
+📞 *Telefon/Telegram:* ${form.contact}
+💬 *Xabar:* ${form.message}
+  `.trim()
+
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'Markdown' })
+    })
+    submitted.value = true
+    form.name = ''; form.contact = ''; form.message = ''
+  } catch (e) {
+    console.error('Telegram xato:', e)
+  }
+
   loading.value = false
-  submitted.value = true
-  form.name = ''; form.contact = ''; form.message = ''
   setTimeout(() => submitted.value = false, 6000)
 }
 </script>
@@ -187,7 +208,7 @@ textarea { resize: vertical; }
 
 .err-msg { color: #e24b4a; font-size: .76rem; }
 .submit-btn { width: 100%; justify-content: center; margin-top: .4rem; }
-.submit-btn:disabled { opacity: .6; }
+.submit-btn:disabled { opacity: .6; pointer-events: none; }
 
 .success-box {
   margin-top: 1rem; padding: .9rem 1.1rem;
