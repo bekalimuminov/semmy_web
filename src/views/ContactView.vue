@@ -15,19 +15,19 @@
         </p>
 
         <div class="contact-channels">
-          <a href="tel:+998712345678" class="channel-card">
+          <a href="tel:+998908572700" class="channel-card">
             <div class="ch-icon" style="background: rgba(45,212,191,.1); border-color: rgba(45,212,191,.25);">📞</div>
             <div>
               <span class="ch-label">{{ t('Telefon', 'Phone') }}</span>
-              <span class="ch-val">+998 71 234 56 78</span>
+              <span class="ch-val">+998 90 857 27 00</span>
             </div>
           </a>
 
-          <a href="mailto:info@seemy.uz" class="channel-card">
+          <a href="mailto:seemyacademy@gmail.com" class="channel-card">
             <div class="ch-icon" style="background: rgba(200,169,110,.1); border-color: rgba(200,169,110,.25);">✉️</div>
             <div>
               <span class="ch-label">Email</span>
-              <span class="ch-val">info@seemy.uz</span>
+              <span class="ch-val">seemyacademy@gmail.com</span>
             </div>
           </a>
 
@@ -102,8 +102,7 @@ import { useLang } from '@/composables/useLang.js'
 const { t } = useLang()
 
 const hours = [
-  { dayUz: 'Dushanba – Juma',  dayEn: 'Monday – Friday',  time: '09:00 – 20:00' },
-  { dayUz: 'Shanba',           dayEn: 'Saturday',          time: '10:00 – 18:00' },
+  { dayUz: 'Dushanba – Shanba',  dayEn: 'Monday – Friday',  time: '09:00 – 20:00' },
   { dayUz: 'Yakshanba',        dayEn: 'Sunday',            time: t('Dam olish kuni', 'Closed') },
 ]
 
