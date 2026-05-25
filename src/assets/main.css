@@ -40,6 +40,7 @@ button { font-family: var(--ff-body); cursor: pointer; }
   padding: 0 1.5rem;
   width: 100%;
 }
+
 .section    { padding: 5.5rem 0; }
 
 /* ─── TYPOGRAPHY HELPERS ─── */
